@@ -7,6 +7,9 @@
 ```
 conda create -n <ENV-NAME> python=<python-version> anaconda
 Eg - conda create -n django python=2.7 anaconda
+
+#Activate the virtual environment
+source activate django
 ```
 
 # compile opencv with ffmpeg
