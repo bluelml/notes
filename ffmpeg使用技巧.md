@@ -5,3 +5,8 @@ ffmpeg -i "你是我的小呀小苹果儿.mp4" -r 1 -q:v 2 -f image2 image-3%d.j
 - -i选项用来获取输入文件，在这里是视频文件名你是我的小呀小苹果儿.mp4，  
 - -r选项设置每秒提取图片的帧数。我想要每秒提取一帧。  
 - -q:v 设置提取到的图片质量。设置2来从视频中获取高质量图片。
+
+# rtsp to image
+```
+ffmpeg -i rtsp://IP_ADDRESS/live.sdp -f image2 -r 1 img%01d.jpg
+```
