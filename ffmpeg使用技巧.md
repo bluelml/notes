@@ -9,4 +9,14 @@ ffmpeg -i "你是我的小呀小苹果儿.mp4" -r 1 -q:v 2 -f image2 image-3%d.j
 # rtsp to image
 ```
 ffmpeg -i rtsp://IP_ADDRESS/live.sdp -f image2 -r 1 img%01d.jpg
+ffmpeg -i rtsp://192.168.123.13:554/onvif1 -r 1/5 -f image2 -updatefirst 1 img1.jpg
 ```
+
+# 关键帧提取
+···
+ ffmpeg -i rtsp://192.168.123.13:554/onvif1 -r 1 -s 160x90 -q:v 2 -vf select='eq(pict_type\,I)' -f image2 image-3%d.jpeg
+···
+
+- -vf: 表示过滤图形的描述选择过滤器select会选择帧进行输出：包括过滤器常量pict_type和对应的类型:PICT_TYPE_I 表示是I帧，即关键帧。
+- -vsync 2:阻止每个关键帧产生多余的拷贝
+- -s 160x90:分辨率
