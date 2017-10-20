@@ -20,3 +20,9 @@ ffmpeg -i rtsp://192.168.123.13:554/onvif1 -r 1/5 -f image2 -updatefirst 1 img1.
 - -vf: 表示过滤图形的描述选择过滤器select会选择帧进行输出：包括过滤器常量pict_type和对应的类型:PICT_TYPE_I 表示是I帧，即关键帧。
 - -vsync 2:阻止每个关键帧产生多余的拷贝
 - -s 160x90:分辨率
+
+or 
+
+```
+ffmpeg -ss <start_time> -i video.mp4 -t <duration> -q:v 2 -vf select="eq(pict_type\,PICT_TYPE_I)" -vsync 0 frame%03d.jpg
+```
