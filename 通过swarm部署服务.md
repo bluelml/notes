@@ -1,4 +1,4 @@
-# smarm 安装
+# swarm 安装
 官方文档
 ```
 https://docs.docker.com/engine/swarm/swarm-tutorial/
@@ -121,6 +121,8 @@ end script
 
 - 重启服务
 ```
-$ sudo restart docker
+$ sudo service docker restart
+
+$ sudo docker run -d -p 5000:5000 -v /opt/data/registry:/tmp/registry registry
 ```
 
