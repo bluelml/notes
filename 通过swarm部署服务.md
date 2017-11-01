@@ -62,6 +62,7 @@ $ docker swarm join \
 This node joined a swarm as a worker.
 ```
 
+
 ## 配置私有仓库
 ```
 $ sudo docker pull registry
@@ -111,6 +112,7 @@ curl 192.168.123.79:5000/v2/_catalog
 /etc/docker/daemon.json 添加如下内容：  
 ```
 {
-  "insecure-registries" : ["myregistrydomain.com:5000"]
+  "insecure-registries" : ["myregistrydomain.com:5000"],
+  "registry-mirrors": ["myregistrydomain.com:5000"]
 }
 ```
