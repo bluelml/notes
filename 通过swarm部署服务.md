@@ -88,16 +88,29 @@ push进私有仓库
 $ sudo docker push 192.168.112.136:5000/busybox
 ```
 
-如果有错误：原因-docker registry交互默认使用的是https，然而此处搭建的私有仓库只提供http服务
+如果有错误：原因-docker registry交互默认使用的是https，然而此处搭建的私有仓库只提供http服务  
 解决方法： 创建/etc/docker/daemon.json, 写入配置
 ```
 { "insecure-registries":["192.168.112.136:5000"] }
 ```
 
-- 重启服务
+- 重启服务  
 ```
 $ sudo service docker restart
 
 $ sudo docker run -d -p 5000:5000 -v /opt/data/registry:/tmp/registry registry
 ```
+- 查询本地仓库内容  
+```
+curl 192.168.123.79:5000/v2/_catalog
 
+显示： {"repositories":["mongo","ss_app"]}
+```
+
+## Work node 添加本地仓库
+/etc/docker/daemon.json 添加如下内容：  
+```
+{
+  "insecure-registries" : ["myregistrydomain.com:5000"]
+}
+```
