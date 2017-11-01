@@ -89,34 +89,9 @@ $ sudo docker push 192.168.112.136:5000/busybox
 ```
 
 如果有错误：原因-docker registry交互默认使用的是https，然而此处搭建的私有仓库只提供http服务
-解决方法： /etc/init/docker.conf，在其中增加–insecure-registry 192.168.112.136:5000
-
-修改前：
+解决方法： 创建/etc/docker/daemon.json, 写入配置
 ```
-script
-        # modify these in /etc/default/$UPSTART_JOB (/etc/default/docker)
-        DOCKERD=/usr/bin/dockerd
-        DOCKER_OPTS=
-        if [ -f /etc/default/$UPSTART_JOB ]; then
-                . /etc/default/$UPSTART_JOB
-        fi
-        exec "$DOCKERD" $DOCKER_OPTS --raw-logs
-end script
-
-```
-
-修改后：
-```
-script
-        # modify these in /etc/default/$UPSTART_JOB (/etc/default/docker)
-        DOCKERD=/usr/bin/dockerd
-        DOCKER_OPTS=
-        if [ -f /etc/default/$UPSTART_JOB ]; then
-                . /etc/default/$UPSTART_JOB
-        fi
-        exec "$DOCKERD" $DOCKER_OPTS --raw-logs –insecure-registry 192.168.123.79:5000
-end script
-
+{ "insecure-registries":["192.168.112.136:5000"] }
 ```
 
 - 重启服务
