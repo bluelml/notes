@@ -109,13 +109,49 @@ To add a worker to this swarm, run the following command:
 To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
 ```
 
-b. 创建服务  
+b. 编写compose,并测试compose  
+```
+https://docs.docker.com/engine/swarm/stack-deploy/#test-the-app-with-compose
+```
+```
+docker-compose up -d
+
+docker-compose ps
+
+ docker-compose down --volumes
+```
+
+NOTE: 
+如遇到下列错误
+```
+ERROR: for auth  Cannot start service auth: driver failed programming external connectivity on endpoint ssfacereccontainer_auth_1 (e028df890134e2a995ccc91d7253728d153e009630720f0b4984d005ef92e39b): Error starting userland proxy: listen tcp 0.0.0.0:811: bind: address already in use
+ERROR: Encountered errors while bringing up the project.
+```
+
+请尝试下面的方法
+https://github.com/jwilder/nginx-proxy/issues/839
+```
+docker stop $(docker ps -a -q); docker rm $(docker ps -a -q); docker volume rm $(docker volume ls -qf dangling=true)
+
+docker network rm $(docker network ls -q)
+
+sudo service docker restart
+
+sudo lsof -nP | grep LISTEN
+
+结束占用端口的进程
+sudo kill -9 1548
+```
+
+
+
+c. 创建服务  
 ```
 docker stack deploy test --compose-file docker-compose.yml
 ```
 - test:服务名称  
   
-c. manger结点不运行任务  
+d. manger结点不运行任务  
 ```
 docker node update --availability drain <NODE>
 ```
