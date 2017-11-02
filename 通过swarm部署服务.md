@@ -144,11 +144,27 @@ docker-compose push
 ```  
 push 完成后就可以用stack deploy创建服务了.  
 
-
 c. 创建服务  
 ```
 docker stack deploy test --compose-file docker-compose.yml
 ```
+
+问题1:
+```
+Error response from daemon: rpc error: code = 9 desc = service needs ingress network, but no ingress network is present
+```  
+请先创建ingress网络：  
+```
+docker network create --ingress --driver overlay ingress
+```
+
+问题2：
+```
+"invalid mount config for type…"
+```
+
+
+  
 - test:服务名称  
   
 d. manger结点不运行任务  
