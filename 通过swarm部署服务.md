@@ -34,35 +34,6 @@ sudo usermod -a -G docker ${USR}
 sudo service docker restart
 ```
 
-## swarm 部署
-- manager node
-```
-docker swarm init --advertise-addr <MANAGER-IP>
-```
-例子：
-```
-$ docker swarm init --advertise-addr 192.168.99.100
-Swarm initialized: current node (dxn1zf6l61qsb1josjja83ngz) is now a manager.
-
-To add a worker to this swarm, run the following command:
-
-    docker swarm join \
-    --token SWMTKN-1-49nj1cmql0jkz5s954yi3oex3nedyz0fb0xx14ie39trti4wxv-8vxv8rssmk743ojnwacrr2e7c \
-    192.168.99.100:2377
-
-To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
-```
-
-- work node
-```
-$ docker swarm join \
-  --token  SWMTKN-1-49nj1cmql0jkz5s954yi3oex3nedyz0fb0xx14ie39trti4wxv-8vxv8rssmk743ojnwacrr2e7c \
-  192.168.99.100:2377
-
-This node joined a swarm as a worker.
-```
-
-
 ## 配置私有仓库
 ```
 $ sudo docker pull registry
@@ -115,4 +86,46 @@ curl 192.168.123.79:5000/v2/_catalog
   "insecure-registries" : ["myregistrydomain.com:5000"],
   "registry-mirrors": ["myregistrydomain.com:5000"]
 }
+```
+
+
+## swarm 部署
+- manager node  
+a. 初始化集群  
+```
+docker swarm init --advertise-addr <MANAGER-IP>
+```
+例子：
+```
+$ docker swarm init --advertise-addr 192.168.99.100
+Swarm initialized: current node (dxn1zf6l61qsb1josjja83ngz) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join \
+    --token SWMTKN-1-49nj1cmql0jkz5s954yi3oex3nedyz0fb0xx14ie39trti4wxv-8vxv8rssmk743ojnwacrr2e7c \
+    192.168.99.100:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+```
+
+b. 创建服务  
+```
+docker stack deploy test --compose-file docker-compose.yml
+```
+- test:服务名称  
+  
+c. manger结点不运行任务  
+```
+docker node update --availability drain <NODE>
+```
+
+
+- work node
+```
+$ docker swarm join \
+  --token  SWMTKN-1-49nj1cmql0jkz5s954yi3oex3nedyz0fb0xx14ie39trti4wxv-8vxv8rssmk743ojnwacrr2e7c \
+  192.168.99.100:2377
+
+This node joined a swarm as a worker.
 ```
