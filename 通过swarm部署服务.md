@@ -44,7 +44,8 @@ $ docker pull registry
 $ docker run -d -p 5000:5000 -v /opt/data/registry:/tmp/registry registry
 ```
   
-- 测试
+- 测试  
+
 ```
 $ docker pull busybox
 
@@ -62,12 +63,14 @@ $ docker push 192.168.112.136:5000/busybox
 ```
 
 - 重启服务  
+
 ```
 $ sudo service docker restart
 
 $ docker run -d -p 5000:5000 -v /opt/data/registry:/tmp/registry registry
 ```
 - 查询本地仓库内容  
+
 ```
 curl 192.168.123.79:5000/v2/_catalog
 
@@ -85,12 +88,13 @@ curl 192.168.123.79:5000/v2/_catalog
 
 
 ## swarm 部署
-- manager node  
+#### manager node  
 a. 初始化集群  
 ```
 docker swarm init --advertise-addr <MANAGER-IP>
-```
-例子：
+```  
+
+例子：  
 ```
 $ docker swarm init --advertise-addr 192.168.99.100
 Swarm initialized: current node (dxn1zf6l61qsb1josjja83ngz) is now a manager.
@@ -104,6 +108,9 @@ To add a worker to this swarm, run the following command:
 To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
 ```
 
+NOTE:
+这个步骤完成后就可以将work node加入集群。具体具体命令参考最后的work node部分。
+
 b. 编写compose,并测试compose  
 ```
 https://docs.docker.com/engine/swarm/stack-deploy/#test-the-app-with-compose
@@ -113,7 +120,7 @@ docker-compose up -d
 
 docker-compose ps
 
- docker-compose down --volumes
+docker-compose down --volumes
 ```
 
 NOTE: 
@@ -147,33 +154,42 @@ push 完成后就可以用stack deploy创建服务了.
 c. 创建服务  
 ```
 docker stack deploy test --compose-file docker-compose.yml
+
+test:服务名称  
 ```
 
 问题1:
 ```
 Error response from daemon: rpc error: code = 9 desc = service needs ingress network, but no ingress network is present
 ```  
-请先创建ingress网络：  
+解决方法，请先创建ingress网络：  
 ```
 docker network create --ingress --driver overlay ingress
 ```
 
 问题2：
 ```
-"invalid mount config for type…"
+"invalid mount config for type "bind": bind source path does not exist"
+```
+解决方法，
 ```
 
-
+```  
   
-- test:服务名称  
   
+  
+  
+  
+    
 d. manger结点不运行任务  
 ```
 docker node update --availability drain <NODE>
 ```
 
 
-- work node
+#### work node
+
+Manager 创建初始化集群后，通过下面命令加入集群:
 ```
 $ docker swarm join \
   --token  SWMTKN-1-49nj1cmql0jkz5s954yi3oex3nedyz0fb0xx14ie39trti4wxv-8vxv8rssmk743ojnwacrr2e7c \
