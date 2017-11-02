@@ -36,28 +36,23 @@ sudo service docker restart
 
 ## 配置私有仓库
 ```
-$ sudo docker pull registry
+$ docker pull registry
 ```  
   
 默认情况下，会将仓库存放于容器内的/tmp/registry目录下，这样如果容器被删除，则存放于容器中的镜像也会丢失，所以我们一般情况下会指定本地一个目录挂载到容器内的/tmp/registry下，如下：
 ```
-$ sudo docker run -d -p 5000:5000 -v /opt/data/registry:/tmp/registry registry
+$ docker run -d -p 5000:5000 -v /opt/data/registry:/tmp/registry registry
 ```
-
-```
-$ sudo docker run -d -p 5000:5000 -v /opt/data/registry:/tmp/registry registry
-```
-
-
+  
 - 测试
 ```
-$ sudo docker pull busybox
+$ docker pull busybox
 
 修改tag
-$ sudo docker tag busybox 192.168.112.136:5000/busybox
+$ docker tag busybox 192.168.112.136:5000/busybox
 
 push进私有仓库
-$ sudo docker push 192.168.112.136:5000/busybox
+$ docker push 192.168.112.136:5000/busybox
 ```
 
 如果有错误：原因-docker registry交互默认使用的是https，然而此处搭建的私有仓库只提供http服务  
@@ -70,7 +65,7 @@ $ sudo docker push 192.168.112.136:5000/busybox
 ```
 $ sudo service docker restart
 
-$ sudo docker run -d -p 5000:5000 -v /opt/data/registry:/tmp/registry registry
+$ docker run -d -p 5000:5000 -v /opt/data/registry:/tmp/registry registry
 ```
 - 查询本地仓库内容  
 ```
@@ -143,6 +138,11 @@ sudo lsof -nP | grep LISTEN
 sudo kill -9 1548
 ```
 
+push image到本地registry,   
+```
+docker-compose push
+```  
+push 完成后就可以用stack deploy创建服务了.  
 
 
 c. 创建服务  
