@@ -197,3 +197,55 @@ $ docker swarm join \
 
 This node joined a swarm as a worker.
 ```
+
+## Secrets的使用
+- manager创建secrets
+```
+# 创建名字为my_secret的secrets
+docker secret create my_secret my_data.txt
+```
+- manager查询secrets
+```
+docker secret ls
+ID                          NAME                CREATED             UPDATED
+uxy3mjd8kqktkaym1txeqlgk3   my_secret          30 minutes ago      30 minutes ago
+```
+- work node 挂载secrets 
+  服务部署后secrets会挂载在docker的下面目录： 
+```
+/run/secrets
+```
+可以通过下列命令查看文件
+```
+$ docker exec $(docker ps --filter name=redis -q) ls -l /run/secrets
+
+total 4
+-r--r--r--    1 root     root            17 Dec 13 22:48 my_secret
+``` 
+
+- compile file的编写
+例子
+```
+version: '3.2'
+services:
+  mysqlshort:
+    image: 'mysql:5.7'
+    deploy:
+      mode: replicated
+      replicas: 1
+      update_config:
+        failure_action: continue
+      restart_policy:
+        condition: none
+    environment:
+       - MYSQL_ROOT_PASSWORD=/run/secrets/my_mysql_password_v1 #配置 MySQL 应用使用 /run/secrets/my_mysql_password_v1 文件作为 root 密码
+    secrets:
+      - my_mysql_password_v1 #您所创建的 secret 的名称
+      - my_secret_v1 #您所创建的 secret 的名称
+  secrets: #对 secrets 进行声明
+    my_mysql_password_v1:
+      external: true
+    my_secret_v1:
+      external: true
+```
+
