@@ -242,10 +242,10 @@ services:
     secrets:
       - my_mysql_password_v1 #您所创建的 secret 的名称
       - my_secret_v1 #您所创建的 secret 的名称
-  secrets: #对 secrets 进行声明
-    my_mysql_password_v1:
-      external: true
-    my_secret_v1:
-      external: true
+secrets: #对 secrets 进行声明
+  my_mysql_password_v1:
+    external: true
+  my_secret_v1:
+    external: true
 ```
 
