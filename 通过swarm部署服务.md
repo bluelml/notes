@@ -249,3 +249,43 @@ secrets: #对 secrets 进行声明
     external: true
 ```
 
+- secrets详细描述
+例子
+```
+version: '3.2'
+services:
+  mysqlshort:
+    image: 'mysql:5.7'
+    deploy:
+      mode: replicated
+      replicas: 1
+      update_config:
+        failure_action: continue
+      restart_policy:
+        condition: none
+    environment:
+       - MYSQL_ROOT_PASSWORD=/run/secrets/my_mysql #配置 MySQL 应用使用 /run/secrets/my_mysql_password_v1 文件作为 root 密码
+    secrets:
+      - source: my_mysql_password_v1 #您所创建的 secret 的名称
+      - target: my_mysql
+      - uid: '0'
+      - gid: '0'
+      - mode: 444
+      - source: my_secret_v1 #您所创建的 secret 的名称
+      - target: my_secret
+      - uid: '0'
+      - gid: '0'
+      - mode: 444
+secrets: #对 secrets 进行声明
+  my_mysql_password_v1:
+    external: true
+  my_secret_v1:
+    external: true
+```
+```
+* source：您在容器服务中所创建的密钥的名称。
+* target：将要挂载到容器的  /run/secrets/  目录下的文件的名称。默认情况下，与 source 值相同，即容器在  /run/secrets/<secret_name>  目录下访问密钥。
+* uid：拥有容器  /run/secrets/  目录下的 secret 文件的用户 ID。默认为 0。
+* gid：拥有容器  /run/secrets/  目录下的 secret 文件的用户组 ID。默认为 0。
+* mode：将要挂载到容器  /run/secrets/  目录下的 secret 文件的权限。格式为八进制，例如：0444 表示全局可读。由于 secrets 是挂载在临时文件系统上的，所以 secrets 不可写；因此，如果您设置了可写位，系统会忽视您的设置。如果您不熟悉 UNIX 的权限模式，可以使用 Permission Calculator。
+```
