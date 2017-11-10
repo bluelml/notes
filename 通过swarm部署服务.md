@@ -198,6 +198,13 @@ $ docker swarm join \
 This node joined a swarm as a worker.
 ```
 
+## 撤销部署
+```
+docker stack rm friendly-service //干掉我们部署的服务，但是记住swarm还在，一会儿我们要强制退出swarm
+docker node ls // 查看在运行的swarm
+docker swarm leave --force // 强制退出swarm
+```
+
 ## Secrets的使用
 - manager创建secrets
 ```
