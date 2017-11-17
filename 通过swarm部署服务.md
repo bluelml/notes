@@ -41,7 +41,10 @@ $ docker pull registry
   
 默认情况下，会将仓库存放于容器内的/tmp/registry目录下，这样如果容器被删除，则存放于容器中的镜像也会丢失，所以我们一般情况下会指定本地一个目录挂载到容器内的/tmp/registry下，如下：
 ```
-$ docker run -d -p 5000:5000 -v /opt/data/registry:/tmp/registry registry
+$docker run -d -p 5000:5000 --restart=always --name registry -v /opt/data/registry:/var/lib/registry registry:2
+
+如果push出错，可以试试给这个容器扩展的特权--privileged=true
+$docker run -d -p 5000:5000 --restart=always --name registry -v /opt/data/registry:/var/lib/registry --privileged=true registry:2
 ```
   
 - 测试  
