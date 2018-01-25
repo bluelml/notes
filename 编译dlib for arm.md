@@ -3,19 +3,21 @@
 https://github.com/bluelml/notes/blob/master/raspberry%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83.md
 ```
 
-* 修改CMakeLists.txt, 指定编译器路径和编译选项
+* 修改CMakeLists.txt(dlib目录下，和dlib/example下都有), 指定编译器路径和编译选项
 ```
 set(CMAKE_C_COMPILER /home/dev/tools/arm-bcm2708/arm-linux-gnueabihf/bin/gcc)
 set(CMAKE_CXX_COMPILER /home/dev/tools/arm-bcm2708/arm-linux-gnueabihf/bin/g++)
-set(CMAKE_C_FLAGS "-o3 -mfpu=neon")
+set(CMAKE_C_FLAGS "-o3 -mfpu=neon -DENABLE_NEON")
 ```
 
 * dlib目录下运行下面命令进行编译
+### Note: 查看dlib/dlib/CMakeLists.txt的402行，发现有个NEON的开关，cmake时加入“-DARM_NEON_IS_AVAILABLE=ON”来打开编译!!
+
 ```
 cd example
 mkdir build
 cd build
-cmake ..
+cmake -DARM_NEON_IS_AVAILABLE=ON ..
 cmake --build .
 ```
 
