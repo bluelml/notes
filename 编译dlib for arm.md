@@ -8,12 +8,13 @@ https://github.com/bluelml/notes/blob/master/raspberry%E4%BA%A4%E5%8F%89%E7%BC%9
 设置环境变量：
 export CC=/usr/local/bin/gcc
 export CXX=/usr/local/bin/g++
+export CFLAGS="-o3 -mfpu=neon -fprofile-use -DENABLE_NEON -DARM_NEON_IS_AVAILABLE=ON"
+export CXXFLAGS="-o3 -mfpu=neon -fprofile-use -DENABLE_NEON -DARM_NEON_IS_AVAILABLE=ON"
+
 
 这种方式不起作用：
 set(CMAKE_C_COMPILER /home/dev/tools/arm-bcm2708/arm-linux-gnueabihf/bin/gcc)
 set(CMAKE_CXX_COMPILER /home/dev/tools/arm-bcm2708/arm-linux-gnueabihf/bin/g++)
-
-设置编译选项：
 set(CMAKE_C_FLAGS "-o3 -mfpu=neon -fprofile-use -DENABLE_NEON -DARM_NEON_IS_AVAILABLE=ON")
 ```
 
