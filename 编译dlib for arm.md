@@ -5,9 +5,16 @@ https://github.com/bluelml/notes/blob/master/raspberry%E4%BA%A4%E5%8F%89%E7%BC%9
 
 * 修改CMakeLists.txt(dlib目录下，和dlib/example下都有), 指定编译器路径和编译选项
 ```
+设置环境变量：
+export CC=/usr/local/bin/gcc
+export CXX=/usr/local/bin/g++
+
+这种方式不起作用：
 set(CMAKE_C_COMPILER /home/dev/tools/arm-bcm2708/arm-linux-gnueabihf/bin/gcc)
 set(CMAKE_CXX_COMPILER /home/dev/tools/arm-bcm2708/arm-linux-gnueabihf/bin/g++)
-set(CMAKE_C_FLAGS "-o3 -mfpu=neon -DENABLE_NEON")
+
+设置编译选项：
+set(CMAKE_C_FLAGS "-o3 -mfpu=neon -fprofile-use -DENABLE_NEON -DARM_NEON_IS_AVAILABLE=ON")
 ```
 
 * dlib目录下运行下面命令进行编译
