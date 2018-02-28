@@ -26,3 +26,28 @@ or
 ```
 ffmpeg -ss <start_time> -i video.mp4 -t <duration> -q:v 2 -vf select="eq(pict_type\,PICT_TYPE_I)" -vsync 0 frame%03d.jpg
 ```
+
+# 添加水印
+
+左下
+```
+ffmpeg -i demo-jt-ped.mp4 -strict -2 -vf "movie=logo111.png [watermark]; [in][watermark] overlay=10:main_h-overlay_h-10 [out]" outputvideo.mp4
+```
+左上
+```
+ffmpeg -i demo-jt-ped.mp4 -strict -2 -vf "movie=logo111.png [watermark]; [in][watermark] overlay=10:10 [out]" outputvideo.mp4
+```
+右上
+```
+ffmpeg -i demo-jt-ped.mp4 -strict -2 -vf "movie=logo111.png [watermark]; [in][watermark] overlay=main_w-overlay_w-10:10 [out]" outputvideo.mp4
+```
+右下
+```
+ffmpeg -i demo-jt-ped.mp4 -strict -2 -vf "movie=logo111.png [watermark]; [in][watermark] overlay=main_w-overlay_w-10:main_w-overlay_w-10 [out]" outputvideo.mp4
+```
+修改水印大小：
+```
+ffmpeg -y -i movie.mkv -ignore_loop 0 -i movieGif.gif -ss 0 -t 100 -filter_complex '[0:0]scale=iw:ih[firstInput]; [1:0]scale=iw/4:ih/4[secondInput]; [firstInput][secondInput]overlay=0:0:1' movieScaleGif.mp4
+
+```
+
