@@ -128,6 +128,9 @@ sudo apt-get install python3-numpy python3-pip python3-scipy python3-matplotlib 
 
 sudo apt-get install python-pip python-tk libqt4-dev libqt4-opengl-dev  libeigen3-dev yasm libfaac-dev libopencore-amrnb-dev libopencore-amrwb-dev libtheora-dev libvorbis-dev libxvidcore-dev libx264-dev sphinx-common texlive-latex-extra libv4l-dev libdc1394-22-dev libavcodec-dev libavformat-dev libswscale-dev default-jdk ant -y
 
+# video for Linux(driver)
+sudo apt-get install v4l-utils
+
 
 echo "GUI and openGL extensions"
 sudo apt-get install qt4-default libqt4-opengl-dev libvtk5-qt4-dev libgtk2.0-dev libgtkglext1 libgtkglext1-dev -y
