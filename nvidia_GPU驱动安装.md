@@ -15,14 +15,14 @@
 卸载掉原有驱动
   * sudo apt-get remove –purge nvidia*
   * 如果使用的是apt-get安装可以使用这种方法卸载，如果使用的是runfile，则使用--uninstall命令，当然runfile安装的时候会卸载掉之前的驱动，所以可以不用手动去卸载。
-  无法卸载时，解决方法：
-  `
-  sudo service lightdm stop
-sudo stop nvidia-digits-server
-sudo service docker stop   或者 service nvidia-docker stop
-sudo rmmod nvidia-uvm
+  无法卸载时，解决方法：  
+ ```
+  sudo service lightdm stop  
+sudo stop nvidia-digits-server  
+sudo service docker stop   或者 service nvidia-docker stop  
+sudo rmmod nvidia-uvm  
 
-  `
+  ```
 
 禁用nouveau
 
