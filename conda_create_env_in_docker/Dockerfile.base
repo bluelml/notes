@@ -1,0 +1,16 @@
+FROM continuumio/miniconda3
+
+WORKDIR /app
+
+# Create the environment:
+COPY env.yml .
+RUN conda env create -f env.yml
+
+# Make RUN commands use the new environment:
+RUN echo "conda activate env" >> ~/.bashrc
+SHELL ["/bin/bash", "--login", "-c"]
+
+# The code to run when container is started:
+COPY entrypoint.sh ./
+RUN chmod +x ./entrypoint.sh
+ENTRYPOINT ["./entrypoint.sh"]
