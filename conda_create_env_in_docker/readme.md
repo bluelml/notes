@@ -4,3 +4,5 @@
 
 2. Dockfile是基于基础镜像，安装需要的python package. 
 
+## 参考
+https://pythonspeed.com/articles/activate-conda-dockerfile/
